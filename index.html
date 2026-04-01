@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Property Card Lookup</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #181c27;
+    --surface2: #1e2333;
+    --border: #2a3045;
+    --accent: #e8c96d;
+    --accent2: #4fa3e0;
+    --text: #e8eaf0;
+    --text-muted: #7a8299;
+    --ma: #e8c96d;
+    --ri: #4fa3e0;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 40px;
+  }
+
+  header {
+    background: linear-gradient(135deg, #0f1117 0%, #1a1f30 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 20px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .header-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .header-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .header-title span {
+    color: var(--accent);
+  }
+
+  .container {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+
+  .state-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .state-btn {
+    border: 2px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    padding: 14px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+
+  .state-btn .state-sub {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    margin-top: 2px;
+    opacity: 0.7;
+  }
+
+  .state-btn.active-ma {
+    border-color: var(--ma);
+    background: rgba(232, 201, 109, 0.08);
+    color: var(--ma);
+  }
+
+  .state-btn.active-ri {
+    border-color: var(--ri);
+    background: rgba(79, 163, 224, 0.08);
+    color: var(--ri);
+  }
+
+  .search-wrap {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .search-input {
+    width: 100%;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    padding: 14px 44px 14px 16px;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-input:focus {
+    border-color: var(--accent);
+  }
+
+  .search-input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .search-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 18px;
+    pointer-events: none;
+  }
+
+  .county-section {
+    margin-bottom: 8px;
+  }
+
+  .county-label {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 8px 4px 6px;
+    font-weight: 600;
+  }
+
+  .towns-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .town-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.18s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .town-card:active, .town-card:hover {
+    background: var(--surface2);
+    border-color: var(--accent);
+    transform: translateX(2px);
+  }
+
+  .town-card.ri-card:active, .town-card.ri-card:hover {
+    border-color: var(--ri);
+  }
+
+  .town-name {
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+  .town-system {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    font-weight: 400;
+  }
+
+  .town-arrow {
+    color: var(--text-muted);
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+
+  .tag {
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 3px 7px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-right: 8px;
+  }
+
+  .tag-patriot { background: rgba(232, 201, 109, 0.15); color: var(--ma); }
+  .tag-vision  { background: rgba(79, 163, 224, 0.15);  color: var(--ri); }
+  .tag-tyler   { background: rgba(120, 190, 140, 0.15); color: #7bc48c; }
+  .tag-nereval { background: rgba(200, 130, 200, 0.15); color: #d89fd8; }
+  .tag-gis     { background: rgba(200, 130, 80, 0.15);  color: #e0a070; }
+  .tag-other   { background: rgba(150,150,150,0.12);    color: #aaa; }
+
+  .no-results {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+  }
+
+  .no-results-icon { font-size: 36px; margin-bottom: 10px; }
+
+  .tip-bar {
+    background: rgba(232, 201, 109, 0.07);
+    border: 1px solid rgba(232, 201, 109, 0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+
+  .tip-bar strong { color: var(--accent); }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">Ben's Lookup</div>
+  <div class="header-title">Property Card <span>Lookup</span></div>
+</header>
+
+<div class="container">
+
+  <div class="state-toggle">
+    <button class="state-btn active-ma" onclick="setState('MA')" id="btn-ma">
+      MA
+      <span class="state-sub">Massachusetts</span>
+    </button>
+    <button class="state-btn" onclick="setState('RI')" id="btn-ri">
+      RI
+      <span class="state-sub">Rhode Island</span>
+    </button>
+  </div>
+
+  <div class="tip-bar">
+    <strong>Tip:</strong> Tap a town to open its assessor database. Search for the address to find the field sketch with dimensions.
+  </div>
+
+  <div class="search-wrap">
+    <input class="search-input" type="search" id="searchBox" placeholder="Search towns..." oninput="filterTowns()" autocomplete="off" autocorrect="off" spellcheck="false">
+    <span class="search-icon">⌕</span>
+  </div>
+
+  <div id="townList"></div>
+
+</div>
+
+<script>
+const data = {
+  MA: [
+    { county: "Bristol County", towns: [
+      { name: "Attleboro",      url: "https://attleboro.patriotproperties.com/",         system: "Patriot Properties" },
+      { name: "Easton",         url: "https://easton.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Mansfield",      url: "https://mansfield.patriotproperties.com/",          system: "Patriot Properties" },
+      { name: "North Attleboro",url: "https://gis.vgsi.com/northattleboroma/",            system: "Vision GIS" },
+      { name: "Norton",         url: "https://norton.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Raynham",        url: "https://raynham.patriotproperties.com/",            system: "Patriot Properties" },
+      { name: "Rehoboth",       url: "https://rehoboth.patriotproperties.com/",           system: "Patriot Properties" },
+      { name: "Seekonk",        url: "https://seekonk.patriotproperties.com/",            system: "Patriot Properties" },
+      { name: "Swansea",        url: "https://gis.vgsi.com/swanseaMA/",                   system: "Vision GIS" },
+      { name: "Taunton",        url: "https://gis.vgsi.com/tauntonma/",                   system: "Vision GIS" },
+      { name: "Dighton",        url: "https://www.axisgis.com/dightonma/",                system: "AxisGIS" },
+      { name: "Berkley",        url: "https://berkley.patriotproperties.com/",            system: "Patriot Properties" },
+    ]},
+    { county: "Norfolk County", towns: [
+      { name: "Avon",           url: "https://gis.vgsi.com/AvonMA/",                      system: "Vision GIS" },
+      { name: "Braintree",      url: "https://braintree.patriotproperties.com/",          system: "Patriot Properties" },
+      { name: "Canton",         url: "https://canton.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Dedham",         url: "https://gis.vgsi.com/dedhamma/",                    system: "Vision GIS" },
+      { name: "Foxborough",     url: "https://foxborough.patriotproperties.com/",         system: "Patriot Properties" },
+      { name: "Franklin",       url: "https://franklin.patriotproperties.com/",           system: "Patriot Properties" },
+      { name: "Medfield",       url: "https://medfield.patriotproperties.com/",           system: "Patriot Properties" },
+      { name: "Millis",         url: "https://millis.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Milton",         url: "https://milton.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Needham",        url: "https://needham.patriotproperties.com/",            system: "Patriot Properties" },
+      { name: "Norfolk",        url: "https://gis.vgsi.com/norfolkma/",                   system: "Vision GIS" },
+      { name: "Norwood",        url: "https://gis.vgsi.com/norwoodma/",                   system: "Vision GIS" },
+      { name: "Plainville",     url: "https://plainville.patriotproperties.com/",         system: "Patriot Properties" },
+      { name: "Quincy",         url: "https://gis.vgsi.com/quincyma/",                    system: "Vision GIS" },
+      { name: "Randolph",       url: "https://gis.vgsi.com/RandolphMA/",                  system: "Vision GIS" },
+      { name: "Sharon",         url: "https://gis.vgsi.com/SharonMA/",                    system: "Vision GIS" },
+      { name: "Stoughton",      url: "https://stoughton.patriotproperties.com/",          system: "Patriot Properties" },
+      { name: "Walpole",        url: "https://gis.vgsi.com/walpolema/",                   system: "Vision GIS" },
+      { name: "Wellesley",      url: "https://wellesley.patriotproperties.com/",          system: "Patriot Properties" },
+      { name: "Westwood",       url: "https://gis.vgsi.com/westwoodma/",                  system: "Vision GIS" },
+      { name: "Weymouth",       url: "https://weymouth.patriotproperties.com/",           system: "Patriot Properties" },
+      { name: "Wrentham",       url: "https://gis.vgsi.com/wrenthamma/",                  system: "Vision GIS" },
+    ]},
+    { county: "Plymouth County", towns: [
+      { name: "Abington",       url: "https://gis.vgsi.com/abingtonma/",                  system: "Vision GIS" },
+      { name: "Bridgewater",    url: "https://bridgewater.patriotproperties.com/",        system: "Patriot Properties" },
+      { name: "Brockton",       url: "https://hosting.tighebond.com/BrocktonMA_Public/",  system: "Tighe & Bond GIS" },
+      { name: "Duxbury",        url: "https://www.axisgis.com/duxburyma/",                system: "AxisGIS" },
+      { name: "East Bridgewater",url:"https://eastbridgewater.patriotproperties.com/",   system: "Patriot Properties" },
+      { name: "Halifax",        url: "https://halifax.patriotproperties.com/",            system: "Patriot Properties" },
+      { name: "Hanover",        url: "https://gis.vgsi.com/hanoverma/",                   system: "Vision GIS" },
+      { name: "Hanson",         url: "https://hanson.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Hingham",        url: "https://gis.vgsi.com/hinghamma/",                   system: "Vision GIS" },
+      { name: "Hull",           url: "https://hull.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Kingston",       url: "https://kingston.patriotproperties.com/",           system: "Patriot Properties" },
+      { name: "Lakeville",      url: "https://lakeville.patriotproperties.com/",          system: "Patriot Properties" },
+      { name: "Marion",         url: "https://marion.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Marshfield",     url: "https://marshfield.patriotproperties.com/",         system: "Patriot Properties" },
+      { name: "Mattapoisett",   url: "https://gis.vgsi.com/mattapoisettma/",              system: "Vision GIS" },
+      { name: "Middleborough",  url: "https://gis.vgsi.com/MiddleboroughMA/",             system: "Vision GIS" },
+      { name: "Norwell",        url: "https://gis.vgsi.com/NorwellMA/",                   system: "Vision GIS" },
+      { name: "Pembroke",       url: "https://pembroke.patriotproperties.com/",           system: "Patriot Properties" },
+      { name: "Plymouth",       url: "https://plymouth.patriotproperties.com/",           system: "Patriot Properties" },
+      { name: "Plympton",       url: "https://plymptonma.mapgeo.io/",                     system: "MapGeo GIS" },
+      { name: "Rockland",       url: "https://rockland.patriotproperties.com/",           system: "Patriot Properties" },
+      { name: "Scituate",       url: "https://scituate.patriotproperties.com/",           system: "Patriot Properties" },
+      { name: "Wareham",        url: "https://gis.vgsi.com/warehamma/",                   system: "Vision GIS" },
+      { name: "West Bridgewater",url:"https://westbridgewater.patriotproperties.com/",   system: "Patriot Properties" },
+      { name: "Whitman",        url: "https://whitman.patriotproperties.com/",            system: "Patriot Properties" },
+    ]},
+    { county: "Middlesex County", towns: [
+      { name: "Chelmsford",     url: "https://gis.vgsi.com/chelmsfordma/",                system: "Vision GIS" },
+      { name: "Concord",        url: "https://gis.vgsi.com/concordma/",                   system: "Vision GIS" },
+      { name: "Dracut",         url: "https://gis.vgsi.com/dracutma/",                    system: "Vision GIS" },
+      { name: "Framingham",     url: "https://gis.vgsi.com/framinghamma/",                system: "Vision GIS" },
+      { name: "Hudson",         url: "https://gis.vgsi.com/hudsonma/",                    system: "Vision GIS" },
+      { name: "Lexington",      url: "https://gis.vgsi.com/lexingtonma/",                 system: "Vision GIS" },
+      { name: "Lowell",         url: "https://gis.vgsi.com/lowellma/",                    system: "Vision GIS" },
+      { name: "Medford",        url: "https://gis.vgsi.com/medfordma/",                   system: "Vision GIS" },
+      { name: "Newton",         url: "https://newtonma.mapgeo.io/datasets/properties",    system: "MapGeo GIS" },
+      { name: "Somerville",     url: "https://gis.vgsi.com/SomervilleMA/",                system: "Vision GIS" },
+      { name: "Stow",           url: "https://gis.vgsi.com/stowma/",                      system: "Vision GIS" },
+      { name: "Tewksbury",      url: "https://gis.vgsi.com/TewksburyMA/",                 system: "Vision GIS" },
+      { name: "Watertown",      url: "https://gis.vgsi.com/WatertownMA/",                 system: "Vision GIS" },
+      { name: "Wayland",        url: "https://gis.vgsi.com/WaylandMA/",                   system: "Vision GIS" },
+      { name: "Wilmington",     url: "https://gis.vgsi.com/wilmingtonma/",                system: "Vision GIS" },
+      { name: "Woburn",         url: "https://gis.vgsi.com/woburnma/",                    system: "Vision GIS" },
+    ]},
+    { county: "Suffolk County", towns: [
+      { name: "Boston",         url: "https://www.cityofboston.gov/assessing/search/",    system: "City of Boston" },
+      { name: "Chelsea",        url: "https://gis.vgsi.com/chelseama/",                   system: "Vision GIS" },
+      { name: "Winthrop",       url: "https://gis.vgsi.com/winthropma/",                  system: "Vision GIS" },
+    ]},
+    { county: "Essex County", towns: [
+      { name: "Amesbury",       url: "https://gis.vgsi.com/amesburyma/",                  system: "Vision GIS" },
+      { name: "Boxford",        url: "https://gis.vgsi.com/BoxfordMA/",                   system: "Vision GIS" },
+      { name: "Gloucester",     url: "https://gis.vgsi.com/GloucesterMA/",                system: "Vision GIS" },
+      { name: "Ipswich",        url: "https://gis.vgsi.com/ipswichma/",                   system: "Vision GIS" },
+      { name: "Lawrence",       url: "https://gis.vgsi.com/lawrencema/",                  system: "Vision GIS" },
+      { name: "Newburyport",    url: "https://gis.vgsi.com/newburyportma/",               system: "Vision GIS" },
+      { name: "Rowley",         url: "https://gis.vgsi.com/RowleyMA/",                    system: "Vision GIS" },
+      { name: "West Newbury",   url: "https://gis.vgsi.com/westnewburyma/",               system: "Vision GIS" },
+    ]},
+    { county: "Worcester County", towns: [
+      { name: "Auburn",         url: "https://gis.vgsi.com/AuburnMA/",                    system: "Vision GIS" },
+      { name: "Berlin",         url: "https://gis.vgsi.com/BerlinMA/",                    system: "Vision GIS" },
+      { name: "Clinton",        url: "https://gis.vgsi.com/clintonma/",                   system: "Vision GIS" },
+      { name: "Dudley",         url: "https://gis.vgsi.com/dudleyma/",                    system: "Vision GIS" },
+      { name: "East Brookfield",url: "https://gis.vgsi.com/EastBrookfieldMA/",           system: "Vision GIS" },
+      { name: "Gardner",        url: "https://gis.vgsi.com/gardnerma/",                   system: "Vision GIS" },
+      { name: "Grafton",        url: "https://gis.vgsi.com/graftonma/",                   system: "Vision GIS" },
+      { name: "Groton",         url: "https://gis.vgsi.com/grotonma/",                    system: "Vision GIS" },
+      { name: "Holden",         url: "https://gis.vgsi.com/holdenma/",                    system: "Vision GIS" },
+      { name: "Hubbardston",    url: "https://gis.vgsi.com/hubbardstonma/",               system: "Vision GIS" },
+      { name: "Millbury",       url: "https://gis.vgsi.com/millburyma/",                  system: "Vision GIS" },
+      { name: "Northbridge",    url: "https://gis.vgsi.com/NorthbridgeMA/",               system: "Vision GIS" },
+      { name: "Paxton",         url: "https://gis.vgsi.com/PaxtonMA/",                    system: "Vision GIS" },
+      { name: "Shrewsbury",     url: "https://gis.vgsi.com/ShrewsburyMA/",                system: "Vision GIS" },
+      { name: "Southbridge",    url: "https://gis.vgsi.com/southbridgema/",               system: "Vision GIS" },
+      { name: "Sturbridge",     url: "https://gis.vgsi.com/sturbridgema/",                system: "Vision GIS" },
+      { name: "Sutton",         url: "https://gis.vgsi.com/suttonMA/",                    system: "Vision GIS" },
+      { name: "Wales",          url: "https://gis.vgsi.com/walesma/",                     system: "Vision GIS" },
+      { name: "West Brookfield",url: "https://gis.vgsi.com/westbrookfieldma/",           system: "Vision GIS" },
+      { name: "Westminster",    url: "https://gis.vgsi.com/westminsterma/",               system: "Vision GIS" },
+      { name: "Worcester",      url: "https://gis.vgsi.com/worcesterma/",                 system: "Vision GIS" },
+    ]},
+    { county: "Hampden County", towns: [
+      { name: "Agawam",         url: "https://gis.vgsi.com/agawamma/",                    system: "Vision GIS" },
+      { name: "Chicopee",       url: "https://gis.vgsi.com/chicopeema/",                  system: "Vision GIS" },
+      { name: "Hampden",        url: "https://gis.vgsi.com/hampdenma/",                   system: "Vision GIS" },
+      { name: "Longmeadow",     url: "https://gis.vgsi.com/longmeadowma/",                system: "Vision GIS" },
+      { name: "Palmer",         url: "https://gis.vgsi.com/palmerma/",                    system: "Vision GIS" },
+      { name: "Southwick",      url: "https://gis.vgsi.com/southwickma/",                 system: "Vision GIS" },
+      { name: "Westfield",      url: "https://gis.vgsi.com/westfieldma/",                 system: "Vision GIS" },
+    ]},
+    { county: "Hampshire County", towns: [
+      { name: "Southampton",    url: "https://gis.vgsi.com/southamptonma/",               system: "Vision GIS" },
+      { name: "Westhampton",    url: "https://gis.vgsi.com/westhamptonma/",               system: "Vision GIS" },
+    ]},
+    { county: "Cape & Islands", towns: [
+      { name: "Nantucket",      url: "https://gis.vgsi.com/nantucketma/",                 system: "Vision GIS" },
+      { name: "Yarmouth",       url: "https://gis.vgsi.com/yarmouthma/",                  system: "Vision GIS" },
+    ]},
+  ],
+  RI: [
+    { county: "Providence County", towns: [
+      { name: "Burrillville",   url: "https://data.nereval.com/SearchInfo.aspx?town=Burrillville",   system: "NEReval" },
+      { name: "Central Falls",  url: "https://data.nereval.com/SearchInfo.aspx?town=Central+Falls",  system: "NEReval" },
+      { name: "Cranston",       url: "http://gis.vgsi.com/CranstonRI/",                              system: "Vision GIS" },
+      { name: "Cumberland",     url: "http://gis.vgsi.com/cumberlandri/",                            system: "Vision GIS" },
+      { name: "East Providence",url: "https://data.nereval.com/Search.aspx?town=East+Providence",    system: "NEReval" },
+      { name: "Foster",         url: "http://gis.vgsi.com/fosterri/",                                system: "Vision GIS" },
+      { name: "Glocester",      url: "https://data.nereval.com/SearchInfo.aspx?town=Glocester",      system: "NEReval" },
+      { name: "Johnston",       url: "http://gis.vgsi.com/johnstonri/",                              system: "Vision GIS" },
+      { name: "Lincoln",        url: "http://gis.vgsi.com/Lincolnri/",                               system: "Vision GIS" },
+      { name: "North Providence",url:"https://data.nereval.com/SearchInfo.aspx?town=North+Providence", system: "NEReval" },
+      { name: "North Smithfield",url:"https://data.nereval.com/SearchInfo.aspx?town=North+Smithfield", system: "NEReval" },
+      { name: "Pawtucket",      url: "http://gis.vgsi.com/PawtucketRI/",                             system: "Vision GIS" },
+      { name: "Providence",     url: "https://data.nereval.com/SearchInfo.aspx?town=Providence",     system: "NEReval" },
+      { name: "Scituate",       url: "https://data.nereval.com/SearchInfo.aspx?town=Scituate",       system: "NEReval" },
+      { name: "Smithfield",     url: "http://gis.vgsi.com/smithfieldri/",                            system: "Vision GIS" },
+      { name: "Woonsocket",     url: "https://gis.vgsi.com/woonsocketri/",                           system: "Vision GIS" },
+    ]},
+    { county: "Kent County", towns: [
+      { name: "Coventry",       url: "https://data.nereval.com/SearchInfo.aspx?town=Coventry",       system: "NEReval" },
+      { name: "East Greenwich", url: "https://data.nereval.com/SearchInfo.aspx?town=East+Greenwich", system: "NEReval" },
+      { name: "Warwick",        url: "http://gis.vgsi.com/warwickri/",                               system: "Vision GIS" },
+      { name: "West Greenwich", url: "https://data.nereval.com/SearchInfo.aspx?town=West+Greenwich", system: "NEReval" },
+      { name: "West Warwick",   url: "https://data.nereval.com/SearchInfo.aspx?town=West+Warwick",   system: "NEReval" },
+    ]},
+    { county: "Washington County", towns: [
+      { name: "Block Island",   url: "http://gis.vgsi.com/newshorehamri/",                           system: "Vision GIS" },
+      { name: "Charlestown",    url: "http://gis.vgsi.com/CharlestownRI/",                           system: "Vision GIS" },
+      { name: "Exeter",         url: "http://gis.vgsi.com/exeterri/Search.aspx",                     system: "Vision GIS" },
+      { name: "Hopkinton",      url: "http://gis.vgsi.com/HopkintonRI/",                             system: "Vision GIS" },
+      { name: "Narragansett",   url: "https://data.nereval.com/SearchInfo.aspx?town=Narragansett",   system: "NEReval" },
+      { name: "North Kingstown",url: "http://gis.vgsi.com/northkingstownri/",                        system: "Vision GIS" },
+      { name: "Richmond",       url: "http://gis.vgsi.com/richmondri/",                              system: "Vision GIS" },
+      { name: "South Kingstown",url: "http://gis.vgsi.com/SouthKingstownRI2/",                       system: "Vision GIS" },
+      { name: "Westerly",       url: "http://gis.vgsi.com/WesterlyRI/",                              system: "Vision GIS" },
+    ]},
+    { county: "Bristol County", towns: [
+      { name: "Barrington",     url: "https://data.nereval.com/SearchInfo.aspx?town=Barrington",     system: "NEReval" },
+      { name: "Bristol",        url: "https://data.nereval.com/SearchInfo.aspx?town=Bristol",        system: "NEReval" },
+      { name: "Warren",         url: "https://data.nereval.com/SearchInfo.aspx?town=Warren",         system: "NEReval" },
+    ]},
+    { county: "Newport County", towns: [
+      { name: "Jamestown",      url: "http://data.nereval.com/SearchInfo.aspx?town=Jamestown",       system: "NEReval" },
+      { name: "Little Compton", url: "http://gis.vgsi.com/LittleComptonRI/",                         system: "Vision GIS" },
+      { name: "Middletown",     url: "http://gis.vgsi.com/MiddletownRI/",                            system: "Vision GIS" },
+      { name: "Newport",        url: "https://data.nereval.com/SearchInfo.aspx?town=Newport",        system: "NEReval" },
+      { name: "Portsmouth",     url: "http://gis.vgsi.com/portsmouthri/",                            system: "Vision GIS" },
+      { name: "Tiverton",       url: "https://data.nereval.com/SearchInfo.aspx?town=Tiverton",       system: "NEReval" },
+    ]},
+  ]
+};
+
+const tagClass = {
+  "Patriot Properties": "tag-patriot",
+  "Vision GIS":         "tag-vision",
+  "Tyler/IAS":          "tag-tyler",
+  "NEReval":            "tag-nereval",
+  "MapGeo GIS":         "tag-gis",
+  "City of Boston":     "tag-other",
+  "Tighe & Bond GIS":   "tag-gis",
+  "AxisGIS":            "tag-gis",
+};
+
+let currentState = 'MA';
+
+function setState(state) {
+  currentState = state;
+  document.getElementById('btn-ma').className = 'state-btn' + (state === 'MA' ? ' active-ma' : '');
+  document.getElementById('btn-ri').className = 'state-btn' + (state === 'RI' ? ' active-ri' : '');
+  document.getElementById('searchBox').value = '';
+  renderTowns('');
+}
+
+function filterTowns() {
+  renderTowns(document.getElementById('searchBox').value.trim().toLowerCase());
+}
+
+function renderTowns(query) {
+  const isRI = currentState === 'RI';
+  const counties = data[currentState];
+  let html = '';
+  let totalShown = 0;
+
+  for (const county of counties) {
+    const filtered = county.towns.filter(t => t.name.toLowerCase().includes(query));
+    if (filtered.length === 0) continue;
+    totalShown += filtered.length;
+
+    html += `<div class="county-section">`;
+    if (!query) html += `<div class="county-label">${county.county}</div>`;
+    html += `<div class="towns-grid">`;
+
+    for (const t of filtered) {
+      const tag = tagClass[t.system] || 'tag-other';
+      const cardClass = isRI ? 'town-card ri-card' : 'town-card';
+      html += `
+        <a class="${cardClass}" href="${t.url}" target="_blank" rel="noopener">
+          <div>
+            <div class="town-name">${t.name}</div>
+            <div class="town-system">${t.system}</div>
+          </div>
+          <div style="display:flex;align-items:center">
+            <span class="tag ${tag}">${t.system.split(' ')[0]}</span>
+            <span class="town-arrow">›</span>
+          </div>
+        </a>`;
+    }
+
+    html += `</div></div>`;
+  }
+
+  if (totalShown === 0) {
+    html = `<div class="no-results">
+      <div class="no-results-icon">🔍</div>
+      <div>No towns found for "<strong>${query}</strong>"</div>
+    </div>`;
+  }
+
+  document.getElementById('townList').innerHTML = html;
+}
+
+renderTowns('');
+</script>
+</body>
+</html>
