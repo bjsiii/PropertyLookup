@@ -3,264 +3,267 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Property Card Lookup</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Property Lookup</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   :root {
     --bg: #0f1117;
-    --surface: #181c27;
-    --surface2: #1e2435;
-    --border: #2a2f3f;
-    --border-inner: #1e2435;
-    --accent-orange: #f97316;
-    --accent-blue: #0e7faa;
-    --accent-green: #16a34a;
-    --accent-purple: #a78bfa;
-    --text: #c8ccd8;
-    --text-heading: #4fc3f7;
-    --text-white: #ffffff;
-    --text-muted: #3a3f55;
-    --danger: #f87171;
-    --radius: 8px;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2a2f45;
+    --blue: #4fc3f7;
+    --orange: #f97316;
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --font-head: 'Bebas Neue', sans-serif;
+    --font-body: 'IBM Plex Mono', monospace;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
+  html, body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'IBM Plex Mono', monospace;
-    min-height: 100vh;
-    padding-bottom: 40px;
+    font-family: var(--font-body);
+    min-height: 100%;
   }
 
+  /* ── Header ── */
   header {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
-    padding: 20px 20px 16px;
+    padding: 14px 16px;
     position: sticky;
     top: 0;
     z-index: 100;
   }
 
-  .header-label {
+  .header-eyebrow {
     font-size: 10px;
-    letter-spacing: 3px;
-    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: var(--muted);
     text-transform: uppercase;
-    margin-bottom: 4px;
-    font-family: 'IBM Plex Mono', monospace;
+    margin-bottom: 2px;
   }
 
   .header-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 2px;
-    color: var(--text-heading);
+    font-family: var(--font-head);
+    font-size: 26px;
+    letter-spacing: 0.06em;
+    color: var(--text);
     line-height: 1;
   }
+  .header-title span { color: var(--blue); }
 
+  /* ── Layout ── */
   .container {
     max-width: 640px;
     margin: 0 auto;
-    padding: 20px 16px;
+    padding: 16px 16px 40px;
   }
 
+  /* ── State Toggle ── */
   .state-toggle {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 8px;
+    margin-bottom: 16px;
   }
 
   .state-btn {
-    border: 2px solid var(--border);
     background: var(--surface);
-    color: var(--text-muted);
-    padding: 13px;
-    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    padding: 12px 16px;
     cursor: pointer;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 2px;
-    transition: all 0.2s ease;
+    font-family: var(--font-head);
+    font-size: 20px;
+    letter-spacing: 0.06em;
+    transition: all 0.15s;
     text-align: center;
-    width: 100%;
-    text-transform: uppercase;
+    border-radius: 4px;
+    user-select: none;
   }
 
   .state-btn .state-sub {
     display: block;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 1px;
-    font-weight: 400;
+    font-family: var(--font-body);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    font-weight: 500;
     margin-top: 2px;
-    opacity: 0.7;
     text-transform: uppercase;
+    opacity: 0.6;
   }
 
+  .state-btn:hover { background: var(--surface2); color: var(--text); }
+
   .state-btn.active-ma {
-    border-color: var(--accent-orange);
-    background: rgba(249, 115, 22, 0.08);
-    color: var(--accent-orange);
+    border-color: var(--blue);
+    border-bottom-color: var(--blue);
+    background: rgba(79,195,247,0.07);
+    color: var(--blue);
   }
 
   .state-btn.active-ri {
-    border-color: var(--accent-blue);
-    background: rgba(14, 127, 170, 0.08);
-    color: var(--accent-blue);
+    border-color: var(--orange);
+    border-bottom-color: var(--orange);
+    background: rgba(249,115,22,0.07);
+    color: var(--orange);
   }
 
+  /* ── Tip bar ── */
+  .tip-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    line-height: 1.6;
+    letter-spacing: 0.03em;
+  }
+  .tip-bar strong { color: var(--blue); font-weight: 600; }
+
+  /* ── Search ── */
   .search-wrap {
     position: relative;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
   .search-input {
     width: 100%;
     background: var(--surface);
-    border: 1.5px solid var(--border);
+    border: 1px solid var(--border);
     color: var(--text);
-    padding: 13px 44px 13px 16px;
-    border-radius: var(--radius);
-    font-family: 'IBM Plex Mono', monospace;
+    padding: 12px 40px 12px 14px;
+    border-radius: 4px;
+    font-family: var(--font-body);
     font-size: 13px;
     outline: none;
-    transition: border-color 0.2s;
+    transition: border-color 0.15s;
+    letter-spacing: 0.03em;
   }
-
-  .search-input:focus { border-color: var(--accent-blue); }
-  .search-input::placeholder { color: var(--text-muted); }
+  .search-input:focus { border-color: var(--blue); }
+  .search-input::placeholder { color: var(--muted); }
 
   .search-icon {
     position: absolute;
-    right: 14px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--text-muted);
-    font-size: 18px;
+    color: var(--muted);
+    font-size: 16px;
     pointer-events: none;
   }
 
-  .county-section { margin-bottom: 8px; }
+  /* ── County sections ── */
+  .county-section { margin-bottom: 6px; }
 
   .county-label {
-    font-size: 10px;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: var(--text-white);
-    padding: 10px 4px 6px;
-    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
     font-weight: 600;
-    border-bottom: 1px solid var(--border-inner);
-    margin-bottom: 6px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 4px 5px;
   }
 
-  .towns-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
+  /* ── Town cards ── */
+  .towns-grid { display: flex; flex-direction: column; gap: 4px; }
 
   .town-card {
     background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+    border-radius: 4px;
+    padding: 11px 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    cursor: pointer;
     text-decoration: none;
     color: var(--text);
-    transition: all 0.18s ease;
+    transition: background 0.12s, border-color 0.12s, transform 0.1s;
     -webkit-tap-highlight-color: transparent;
+    position: relative;
+    overflow: hidden;
   }
 
-  .town-card:active, .town-card:hover {
+  .town-card:hover, .town-card:active {
     background: var(--surface2);
-    border-color: var(--border);
+    border-color: var(--blue);
+    transform: translateX(2px);
   }
 
-  .town-card.ri-card:active, .town-card.ri-card:hover {
-    background: var(--surface2);
+  .town-card.ri-card { border-left-color: var(--orange); }
+  .town-card.ri-card:hover, .town-card.ri-card:active {
+    border-color: var(--orange);
   }
 
   .town-name {
     font-weight: 500;
     font-size: 13px;
-    color: var(--text);
-    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.03em;
   }
 
   .town-system {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 3px;
-    font-weight: 400;
-    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+    letter-spacing: 0.04em;
   }
 
   .town-arrow {
-    color: var(--text-muted);
-    font-size: 18px;
+    color: var(--muted);
+    font-size: 16px;
     flex-shrink: 0;
     margin-left: 8px;
+    transition: transform 0.12s;
   }
+  .town-card:hover .town-arrow { transform: translateX(3px); color: var(--blue); }
+  .town-card.ri-card:hover .town-arrow { color: var(--orange); }
 
+  /* ── Tags ── */
   .tag {
-    font-size: 9px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    font-size: 8px;
     font-weight: 600;
-    padding: 3px 7px;
-    border-radius: 4px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
     flex-shrink: 0;
     margin-right: 8px;
-    font-family: 'IBM Plex Mono', monospace;
   }
 
-  .tag-patriot { background: rgba(249, 115, 22, 0.12); color: var(--accent-orange); }
-  .tag-vision  { background: rgba(14, 127, 170, 0.12); color: var(--accent-blue); }
-  .tag-tyler   { background: rgba(22, 163, 74, 0.12);  color: var(--accent-green); }
-  .tag-nereval { background: rgba(167, 139, 250, 0.12); color: var(--accent-purple); }
-  .tag-gis     { background: rgba(14, 127, 170, 0.10); color: var(--accent-blue); }
-  .tag-other   { background: rgba(58, 63, 85, 0.3);    color: var(--text-muted); }
+  .tag-patriot { background: rgba(249,115,22,0.12); color: var(--orange); }
+  .tag-vision  { background: rgba(79,195,247,0.12);  color: var(--blue); }
+  .tag-nereval { background: rgba(167,139,250,0.12); color: #a78bfa; }
+  .tag-gis     { background: rgba(52,211,153,0.12);  color: #34d399; }
+  .tag-other   { background: rgba(107,114,128,0.15); color: var(--muted); }
 
+  /* ── No results ── */
   .no-results {
     text-align: center;
     padding: 40px 20px;
-    color: var(--text-muted);
-    font-family: 'IBM Plex Mono', monospace;
-  }
-
-  .no-results-icon { font-size: 36px; margin-bottom: 10px; }
-
-  .tip-bar {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px 16px;
+    color: var(--muted);
     font-size: 12px;
-    color: var(--text-muted);
-    margin-bottom: 18px;
-    line-height: 1.6;
-    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.05em;
   }
-
-  .tip-bar strong { color: var(--accent-orange); }
+  .no-results-icon { font-size: 32px; margin-bottom: 10px; }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-label">Ben's Lookup</div>
-  <div class="header-title">Property Card Lookup</div>
+  <div class="header-eyebrow">Assessor Database</div>
+  <div class="header-title">Property <span>Lookup</span></div>
 </header>
 
 <div class="container">
-
   <div class="state-toggle">
     <button class="state-btn active-ma" onclick="setState('MA')" id="btn-ma">
       MA
@@ -273,7 +276,7 @@
   </div>
 
   <div class="tip-bar">
-    <strong>Tip:</strong> Tap a town to open its assessor database. Search for the address to find the field sketch with dimensions.
+    <strong>TIP —</strong> Tap a town to open its assessor database. Search the address to find the field sketch with dimensions.
   </div>
 
   <div class="search-wrap">
@@ -282,163 +285,390 @@
   </div>
 
   <div id="townList"></div>
-
 </div>
 
 <script>
 const data = {
   MA: [
+    { county: "Barnstable County (Cape Cod)", towns: [
+      { name: "Barnstable (incl. Hyannis)", url: "https://townofbarnstable.us/Departments/Assessing/Property_Values/Property-Look-Up.asp", system: "Town Portal" },
+      { name: "Bourne",        url: "http://www.assessedvalues2.com/index.aspx?jurcode=36",  system: "AssessedValues2" },
+      { name: "Brewster",      url: "http://www.assessedvalues2.com/index.aspx?jurcode=41",  system: "AssessedValues2" },
+      { name: "Chatham",       url: "https://www.mapsonline.net/chathamma/web_assessor/search.php", system: "MapsOnline" },
+      { name: "Dennis",        url: "http://www.assessedvalues2.com/index.aspx?jurcode=75",  system: "AssessedValues2" },
+      { name: "Eastham",       url: "https://www.mapsonline.net/easthamma/web_assessor/search.php", system: "MapsOnline" },
+      { name: "Falmouth",      url: "https://falmouth.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Harwich",       url: "http://www.assessedvalues2.com/index.aspx?jurcode=126", system: "AssessedValues2" },
+      { name: "Mashpee",       url: "http://www.assessedvalues2.com/index.aspx?jurcode=172", system: "AssessedValues2" },
+      { name: "Orleans",       url: "https://www.town.orleans.ma.us/assessing/pages/searchable-data-base", system: "Town Portal" },
+      { name: "Provincetown",  url: "http://www.provincetown-ma.gov/index.aspx?NID=220",     system: "Town Portal" },
+      { name: "Sandwich",      url: "http://www.assessedvalues2.com/index.aspx?jurcode=261", system: "AssessedValues2" },
+      { name: "Truro",         url: "http://www.assessedvalues2.com/index.aspx?jurcode=300", system: "AssessedValues2" },
+      { name: "Wellfleet",     url: "http://www.assessedvalues2.com/index.aspx?jurcode=318", system: "AssessedValues2" },
+      { name: "Yarmouth",      url: "https://gis.vgsi.com/yarmouthma/",                      system: "Vision GIS" },
+    ]},
+    { county: "Berkshire County", towns: [
+      { name: "Adams",          url: "https://www.axisgis.com/AdamsMA/",                      system: "AxisGIS" },
+      { name: "Alford",         url: "https://www.axisgis.com/AlfordMA/",                     system: "AxisGIS" },
+      { name: "Becket",         url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Cheshire",       url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Clarksburg",     url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Dalton",         url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Egremont",       url: "https://www.axisgis.com/egremontma/",                   system: "AxisGIS" },
+      { name: "Florida",        url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Great Barrington",url:"http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Hancock",        url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Hinsdale",       url: "http://epas.csc-ma.us/PublicAccess/Pages/SearchParcel.aspx?town=HINSDALE", system: "CSC EPAS" },
+      { name: "Lanesborough",   url: "https://www.axisgis.com/LanesboroughMA/",               system: "AxisGIS" },
+      { name: "Lee",            url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Lenox",          url: "http://www.assessedvalues2.com/index.aspx?jurcode=152", system: "AssessedValues2" },
+      { name: "Monterey",       url: "https://www.montereyma.gov/assessors/pages/maps-real-estate-assessment-data", system: "Town Portal" },
+      { name: "Mount Washington",url:"http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "New Ashford",    url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "New Marlborough",url:"http://www.newmarlboroughma.gov/Pages/NewMarlboroughMA_Bcomm/Assessor/data/", system: "Town Portal" },
+      { name: "North Adams",    url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Otis",           url: "https://www.mapsonline.net/otisma/web_assessor/search.php", system: "MapsOnline" },
+      { name: "Peru",           url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Pittsfield",     url: "https://host.appgeo.com/PittsfieldMA/",                 system: "AppGeo GIS" },
+      { name: "Richmond",       url: "https://www.axisgis.com/RichmondMA/",                   system: "AxisGIS" },
+      { name: "Sandisfield",    url: "https://www.axisgis.com/SandisfieldMA/",                system: "AxisGIS" },
+      { name: "Savoy",          url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Sheffield",      url: "https://www.axisgis.com/SheffieldMA/",                  system: "AxisGIS" },
+      { name: "Stockbridge",    url: "https://www.axisgis.com/StockbridgeMA/",                system: "AxisGIS" },
+      { name: "Tyringham",      url: "http://www.assessedvalues2.com/index.aspx?jurcode=302", system: "AssessedValues2" },
+      { name: "Washington",     url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "West Stockbridge",url:"http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Williamstown",   url: "https://www.axisgis.com/WilliamstownMA/",               system: "AxisGIS" },
+      { name: "Windsor",        url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+    ]},
     { county: "Bristol County", towns: [
-      { name: "Attleboro",       url: "https://attleboro.patriotproperties.com/",          system: "Patriot Properties" },
-      { name: "Berkley",         url: "https://berkley.patriotproperties.com/",             system: "Patriot Properties" },
-      { name: "Dighton",         url: "https://www.axisgis.com/dightonma/",                 system: "AxisGIS" },
-      { name: "Easton",          url: "https://easton.patriotproperties.com/",              system: "Patriot Properties" },
-      { name: "Mansfield",       url: "https://mansfield.patriotproperties.com/",           system: "Patriot Properties" },
-      { name: "North Attleboro", url: "https://gis.vgsi.com/northattleboroma/",             system: "Vision GIS" },
-      { name: "Norton",          url: "https://norton.patriotproperties.com/",              system: "Patriot Properties" },
-      { name: "Raynham",         url: "https://raynham.patriotproperties.com/",             system: "Patriot Properties" },
-      { name: "Rehoboth",        url: "https://rehoboth.patriotproperties.com/",            system: "Patriot Properties" },
-      { name: "Seekonk",         url: "https://seekonk.patriotproperties.com/",             system: "Patriot Properties" },
-      { name: "Swansea",         url: "https://gis.vgsi.com/swanseaMA/",                    system: "Vision GIS" },
-      { name: "Taunton",         url: "https://gis.vgsi.com/tauntonma/",                    system: "Vision GIS" },
+      { name: "Acushnet",       url: "https://acushnet.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Attleboro",      url: "https://attleboro.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Berkley",        url: "https://berkley.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Dartmouth",      url: "https://gis.vgsi.com/dartmouthma/",                     system: "Vision GIS" },
+      { name: "Dighton",        url: "https://www.axisgis.com/dightonma/",                    system: "AxisGIS" },
+      { name: "Easton",         url: "https://easton.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Fairhaven",      url: "https://fairhaven.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Fall River",     url: "https://fallriver.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Freetown",       url: "http://assessedvalues2.com/index.aspx?jurcode=102",     system: "AssessedValues2" },
+      { name: "Mansfield",      url: "https://mansfield.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "New Bedford",    url: "https://www.newbedford-ma.gov/assessors/parcel-lookup/",system: "Town Portal" },
+      { name: "North Attleboro",url: "https://gis.vgsi.com/northattleboroma/",               system: "Vision GIS" },
+      { name: "Norton",         url: "https://nortonma.mapgeo.io/",                           system: "MapGeo GIS" },
+      { name: "Raynham",        url: "https://raynhamma.mapgeo.io/",                          system: "MapGeo GIS" },
+      { name: "Rehoboth",       url: "https://rehobothma.mapgeo.io/",                         system: "MapGeo GIS" },
+      { name: "Seekonk",        url: "http://epas.csc-ma.us/PublicAccess/Pages/SearchParcel.aspx?town=SEEKONK", system: "CSC EPAS" },
+      { name: "Somerset",       url: "http://epas.csc-ma.us/Somerset/",                       system: "CSC EPAS" },
+      { name: "Swansea",        url: "https://gis.vgsi.com/swanseaMA/",                       system: "Vision GIS" },
+      { name: "Taunton",        url: "https://gis.vgsi.com/tauntonma/",                       system: "Vision GIS" },
+      { name: "Westport",       url: "https://westportma.mapgeo.io/",                         system: "MapGeo GIS" },
     ]},
-    { county: "Norfolk County", towns: [
-      { name: "Avon",            url: "https://gis.vgsi.com/AvonMA/",                       system: "Vision GIS" },
-      { name: "Braintree",       url: "https://braintree.patriotproperties.com/",           system: "Patriot Properties" },
-      { name: "Canton",          url: "https://canton.patriotproperties.com/",              system: "Patriot Properties" },
-      { name: "Dedham",          url: "https://gis.vgsi.com/dedhamma/",                     system: "Vision GIS" },
-      { name: "Foxborough",      url: "https://foxborough.patriotproperties.com/",          system: "Patriot Properties" },
-      { name: "Franklin",        url: "https://franklin.patriotproperties.com/",            system: "Patriot Properties" },
-      { name: "Medfield",        url: "https://medfield.patriotproperties.com/",            system: "Patriot Properties" },
-      { name: "Millis",          url: "https://millis.patriotproperties.com/",              system: "Patriot Properties" },
-      { name: "Milton",          url: "https://milton.patriotproperties.com/",              system: "Patriot Properties" },
-      { name: "Needham",         url: "https://needham.patriotproperties.com/",             system: "Patriot Properties" },
-      { name: "Norfolk",         url: "https://gis.vgsi.com/norfolkma/",                    system: "Vision GIS" },
-      { name: "Norwood",         url: "https://gis.vgsi.com/norwoodma/",                    system: "Vision GIS" },
-      { name: "Plainville",      url: "https://plainville.patriotproperties.com/",          system: "Patriot Properties" },
-      { name: "Quincy",          url: "https://gis.vgsi.com/quincyma/",                     system: "Vision GIS" },
-      { name: "Randolph",        url: "https://gis.vgsi.com/RandolphMA/",                   system: "Vision GIS" },
-      { name: "Sharon",          url: "https://gis.vgsi.com/SharonMA/",                     system: "Vision GIS" },
-      { name: "Stoughton",       url: "https://stoughton.patriotproperties.com/",           system: "Patriot Properties" },
-      { name: "Walpole",         url: "https://gis.vgsi.com/walpolema/",                    system: "Vision GIS" },
-      { name: "Wellesley",       url: "https://wellesley.patriotproperties.com/",           system: "Patriot Properties" },
-      { name: "Westwood",        url: "https://gis.vgsi.com/westwoodma/",                   system: "Vision GIS" },
-      { name: "Weymouth",        url: "https://weymouth.patriotproperties.com/",            system: "Patriot Properties" },
-      { name: "Wrentham",        url: "https://gis.vgsi.com/wrenthamma/",                   system: "Vision GIS" },
-    ]},
-    { county: "Plymouth County", towns: [
-      { name: "Abington",        url: "https://gis.vgsi.com/abingtonma/",                   system: "Vision GIS" },
-      { name: "Bridgewater",     url: "https://bridgewater.patriotproperties.com/",         system: "Patriot Properties" },
-      { name: "Brockton",        url: "https://hosting.tighebond.com/BrocktonMA_Public/",   system: "Tighe & Bond GIS" },
-      { name: "Duxbury",         url: "https://www.axisgis.com/duxburyma/",                 system: "AxisGIS" },
-      { name: "East Bridgewater",url: "https://eastbridgewater.patriotproperties.com/",     system: "Patriot Properties" },
-      { name: "Halifax",         url: "https://halifax.patriotproperties.com/",             system: "Patriot Properties" },
-      { name: "Hanover",         url: "https://gis.vgsi.com/hanoverma/",                    system: "Vision GIS" },
-      { name: "Hanson",          url: "https://hanson.patriotproperties.com/",              system: "Patriot Properties" },
-      { name: "Hingham",         url: "https://gis.vgsi.com/hinghamma/",                    system: "Vision GIS" },
-      { name: "Hull",            url: "https://hull.patriotproperties.com/",                system: "Patriot Properties" },
-      { name: "Kingston",        url: "https://kingston.patriotproperties.com/",            system: "Patriot Properties" },
-      { name: "Lakeville",       url: "https://lakeville.patriotproperties.com/",           system: "Patriot Properties" },
-      { name: "Marion",          url: "https://marion.patriotproperties.com/",              system: "Patriot Properties" },
-      { name: "Marshfield",      url: "https://marshfield.patriotproperties.com/",          system: "Patriot Properties" },
-      { name: "Mattapoisett",    url: "https://gis.vgsi.com/mattapoisettma/",               system: "Vision GIS" },
-      { name: "Middleborough",   url: "https://gis.vgsi.com/MiddleboroughMA/",              system: "Vision GIS" },
-      { name: "Norwell",         url: "https://gis.vgsi.com/NorwellMA/",                    system: "Vision GIS" },
-      { name: "Pembroke",        url: "https://pembroke.patriotproperties.com/",            system: "Patriot Properties" },
-      { name: "Plymouth",        url: "https://plymouth.patriotproperties.com/",            system: "Patriot Properties" },
-      { name: "Plympton",        url: "https://plymptonma.mapgeo.io/",                      system: "MapGeo GIS" },
-      { name: "Rockland",        url: "https://rockland.patriotproperties.com/",            system: "Patriot Properties" },
-      { name: "Scituate",        url: "https://scituate.patriotproperties.com/",            system: "Patriot Properties" },
-      { name: "Wareham",         url: "https://gis.vgsi.com/warehamma/",                    system: "Vision GIS" },
-      { name: "West Bridgewater",url: "https://westbridgewater.patriotproperties.com/",     system: "Patriot Properties" },
-      { name: "Whitman",         url: "https://whitman.patriotproperties.com/",             system: "Patriot Properties" },
-    ]},
-    { county: "Middlesex County", towns: [
-      { name: "Chelmsford",      url: "https://gis.vgsi.com/chelmsfordma/",                 system: "Vision GIS" },
-      { name: "Concord",         url: "https://gis.vgsi.com/concordma/",                    system: "Vision GIS" },
-      { name: "Dracut",          url: "https://gis.vgsi.com/dracutma/",                     system: "Vision GIS" },
-      { name: "Framingham",      url: "https://gis.vgsi.com/framinghamma/",                 system: "Vision GIS" },
-      { name: "Hudson",          url: "https://gis.vgsi.com/hudsonma/",                     system: "Vision GIS" },
-      { name: "Lexington",       url: "https://gis.vgsi.com/lexingtonma/",                  system: "Vision GIS" },
-      { name: "Lowell",          url: "https://gis.vgsi.com/lowellma/",                     system: "Vision GIS" },
-      { name: "Medford",         url: "https://gis.vgsi.com/medfordma/",                    system: "Vision GIS" },
-      { name: "Newton",          url: "https://newtonma.mapgeo.io/datasets/properties",     system: "MapGeo GIS" },
-      { name: "Somerville",      url: "https://gis.vgsi.com/SomervilleMA/",                 system: "Vision GIS" },
-      { name: "Stow",            url: "https://gis.vgsi.com/stowma/",                       system: "Vision GIS" },
-      { name: "Tewksbury",       url: "https://gis.vgsi.com/TewksburyMA/",                  system: "Vision GIS" },
-      { name: "Watertown",       url: "https://gis.vgsi.com/WatertownMA/",                  system: "Vision GIS" },
-      { name: "Wayland",         url: "https://gis.vgsi.com/WaylandMA/",                    system: "Vision GIS" },
-      { name: "Wilmington",      url: "https://gis.vgsi.com/wilmingtonma/",                 system: "Vision GIS" },
-      { name: "Woburn",          url: "https://gis.vgsi.com/woburnma/",                     system: "Vision GIS" },
-    ]},
-    { county: "Suffolk County", towns: [
-      { name: "Boston",          url: "https://www.cityofboston.gov/assessing/search/",     system: "City of Boston" },
-      { name: "Chelsea",         url: "https://gis.vgsi.com/chelseama/",                    system: "Vision GIS" },
-      { name: "Winthrop",        url: "https://gis.vgsi.com/winthropma/",                   system: "Vision GIS" },
+    { county: "Dukes County (Martha's Vineyard)", towns: [
+      { name: "Aquinnah",       url: "https://www.axisgis.com/AquinnahMA/",                   system: "AxisGIS" },
+      { name: "Chilmark",       url: "https://www.axisgis.com/ChilmarkMA/",                   system: "AxisGIS" },
+      { name: "Edgartown",      url: "https://gis.vgsi.com/edgartownma/",                     system: "Vision GIS" },
+      { name: "Gosnold",        url: "https://gis.vgsi.com/gosnoldma/",                       system: "Vision GIS" },
+      { name: "Oak Bluffs",     url: "https://www.mapsonline.net/oakbluffsma/index.html",     system: "MapsOnline" },
+      { name: "Tisbury",        url: "https://www.axisgis.com/TisburyMA/",                    system: "AxisGIS" },
+      { name: "West Tisbury",   url: "https://www.axisgis.com/West_TisburyMA/",               system: "AxisGIS" },
     ]},
     { county: "Essex County", towns: [
-      { name: "Amesbury",        url: "https://gis.vgsi.com/amesburyma/",                   system: "Vision GIS" },
-      { name: "Boxford",         url: "https://gis.vgsi.com/BoxfordMA/",                    system: "Vision GIS" },
-      { name: "Gloucester",      url: "https://gis.vgsi.com/GloucesterMA/",                 system: "Vision GIS" },
-      { name: "Ipswich",         url: "https://gis.vgsi.com/ipswichma/",                    system: "Vision GIS" },
-      { name: "Lawrence",        url: "https://gis.vgsi.com/lawrencema/",                   system: "Vision GIS" },
-      { name: "Newburyport",     url: "https://gis.vgsi.com/newburyportma/",                system: "Vision GIS" },
-      { name: "Rowley",          url: "https://gis.vgsi.com/RowleyMA/",                     system: "Vision GIS" },
-      { name: "West Newbury",    url: "https://gis.vgsi.com/westnewburyma/",                system: "Vision GIS" },
+      { name: "Amesbury",       url: "https://gis.vgsi.com/amesburyma/",                      system: "Vision GIS" },
+      { name: "Andover",        url: "https://andover.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Beverly",        url: "https://beverly.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Boxford",        url: "https://gis.vgsi.com/BoxfordMA/",                       system: "Vision GIS" },
+      { name: "Danvers",        url: "https://danvers.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Essex",          url: "https://essex.patriotproperties.com/",                  system: "Patriot Properties" },
+      { name: "Georgetown",     url: "http://mimap.mvpc.org/map/index.html?viewer=georgetown",system: "Town Portal" },
+      { name: "Gloucester",     url: "https://gis.vgsi.com/GloucesterMA/",                    system: "Vision GIS" },
+      { name: "Groveland",      url: "https://groveland.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Hamilton",       url: "https://gis.vgsi.com/hamiltonma/",                      system: "Vision GIS" },
+      { name: "Haverhill",      url: "https://haverhill.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Ipswich",        url: "https://ipswich.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Lawrence",       url: "https://gis.vgsi.com/lawrencema/",                      system: "Vision GIS" },
+      { name: "Lynn",           url: "https://lynn.patriotproperties.com/",                   system: "Patriot Properties" },
+      { name: "Lynnfield",      url: "https://lynnfield.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Manchester-by-the-Sea", url: "https://manchester.patriotproperties.com/",      system: "Patriot Properties" },
+      { name: "Marblehead",     url: "https://marblehead.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Merrimac",       url: "https://merrimac.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Middleton",      url: "https://middleton.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Nahant",         url: "https://www.axisgis.com/nahantma/",                     system: "AxisGIS" },
+      { name: "Newbury",        url: "https://newbury.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Newburyport",    url: "https://gis.vgsi.com/newburyportma/",                   system: "Vision GIS" },
+      { name: "North Andover",  url: "http://epas.csc-ma.us/PublicAccess/Pages/SearchParcel.aspx?town=NORTHANDOVER", system: "CSC EPAS" },
+      { name: "Peabody",        url: "https://peabodyma.mapgeo.io/",                          system: "MapGeo GIS" },
+      { name: "Rockport",       url: "https://www.mapsonline.net/rockportma/",                system: "MapsOnline" },
+      { name: "Rowley",         url: "https://gis.vgsi.com/RowleyMA/",                        system: "Vision GIS" },
+      { name: "Salem",          url: "https://salem.patriotproperties.com/",                  system: "Patriot Properties" },
+      { name: "Salisbury",      url: "https://salisbury.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Saugus",         url: "https://saugus.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Swampscott",     url: "https://swampscott.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Topsfield",      url: "https://topsfield.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Wenham",         url: "https://www.axisgis.com/WenhamMA/",                     system: "AxisGIS" },
+      { name: "West Newbury",   url: "https://westnewbury.patriotproperties.com/",            system: "Patriot Properties" },
     ]},
-    { county: "Worcester County", towns: [
-      { name: "Auburn",          url: "https://gis.vgsi.com/AuburnMA/",                     system: "Vision GIS" },
-      { name: "Berlin",          url: "https://gis.vgsi.com/BerlinMA/",                     system: "Vision GIS" },
-      { name: "Clinton",         url: "https://gis.vgsi.com/clintonma/",                    system: "Vision GIS" },
-      { name: "Dudley",          url: "https://gis.vgsi.com/dudleyma/",                     system: "Vision GIS" },
-      { name: "East Brookfield", url: "https://gis.vgsi.com/EastBrookfieldMA/",             system: "Vision GIS" },
-      { name: "Gardner",         url: "https://gis.vgsi.com/gardnerma/",                    system: "Vision GIS" },
-      { name: "Grafton",         url: "https://gis.vgsi.com/graftonma/",                    system: "Vision GIS" },
-      { name: "Groton",          url: "https://gis.vgsi.com/grotonma/",                     system: "Vision GIS" },
-      { name: "Holden",          url: "https://gis.vgsi.com/holdenma/",                     system: "Vision GIS" },
-      { name: "Hubbardston",     url: "https://gis.vgsi.com/hubbardstonma/",                system: "Vision GIS" },
-      { name: "Millbury",        url: "https://gis.vgsi.com/millburyma/",                   system: "Vision GIS" },
-      { name: "Northbridge",     url: "https://gis.vgsi.com/NorthbridgeMA/",                system: "Vision GIS" },
-      { name: "Paxton",          url: "https://gis.vgsi.com/PaxtonMA/",                     system: "Vision GIS" },
-      { name: "Shrewsbury",      url: "https://gis.vgsi.com/ShrewsburyMA/",                 system: "Vision GIS" },
-      { name: "Southbridge",     url: "https://gis.vgsi.com/southbridgema/",                system: "Vision GIS" },
-      { name: "Sturbridge",      url: "https://gis.vgsi.com/sturbridgema/",                 system: "Vision GIS" },
-      { name: "Sutton",          url: "https://gis.vgsi.com/suttonMA/",                     system: "Vision GIS" },
-      { name: "Wales",           url: "https://gis.vgsi.com/walesma/",                      system: "Vision GIS" },
-      { name: "West Brookfield", url: "https://gis.vgsi.com/westbrookfieldma/",             system: "Vision GIS" },
-      { name: "Westminster",     url: "https://gis.vgsi.com/westminsterma/",                system: "Vision GIS" },
-      { name: "Worcester",       url: "https://gis.vgsi.com/worcesterma/",                  system: "Vision GIS" },
+    { county: "Franklin County", towns: [
+      { name: "Ashfield",       url: "https://ashfield.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Bernardston",    url: "http://epas.csc-ma.us/PublicAccess/Pages/SearchParcel.aspx?town=BERNARDSTON", system: "CSC EPAS" },
+      { name: "Buckland",       url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Charlemont",     url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Colrain",        url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Conway",         url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Deerfield",      url: "https://deerfield.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Erving",         url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Gill",           url: "https://gill.patriotproperties.com/",                   system: "Patriot Properties" },
+      { name: "Greenfield",     url: "http://www.mainstreetmaps.com/ma/greenfield/public.asp",system: "MainStreetMaps" },
+      { name: "Hawley",         url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Heath",          url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Leverett",       url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Leyden",         url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Monroe",         url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Montague",       url: "https://montague.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "New Salem",      url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Northfield",     url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Orange",         url: "https://www.axisgis.com/OrangeMA/",                     system: "AxisGIS" },
+      { name: "Rowe",           url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Shelburne",      url: "https://www.axisgis.com/shelburneMA/",                  system: "AxisGIS" },
+      { name: "Shutesbury",     url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Sunderland",     url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Warwick",        url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Wendell",        url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Whately",        url: "https://www.axisgis.com/WhatelyMA/",                    system: "AxisGIS" },
     ]},
     { county: "Hampden County", towns: [
-      { name: "Agawam",          url: "https://gis.vgsi.com/agawamma/",                     system: "Vision GIS" },
-      { name: "Chicopee",        url: "https://gis.vgsi.com/chicopeema/",                   system: "Vision GIS" },
-      { name: "Hampden",         url: "https://gis.vgsi.com/hampdenma/",                    system: "Vision GIS" },
-      { name: "Longmeadow",      url: "https://gis.vgsi.com/longmeadowma/",                 system: "Vision GIS" },
-      { name: "Palmer",          url: "https://gis.vgsi.com/palmerma/",                     system: "Vision GIS" },
-      { name: "Southwick",       url: "https://gis.vgsi.com/southwickma/",                  system: "Vision GIS" },
-      { name: "Westfield",       url: "https://gis.vgsi.com/westfieldma/",                  system: "Vision GIS" },
+      { name: "Agawam",         url: "https://agawam.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Blandford",      url: "https://blandford.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Brimfield",      url: "https://brimfield.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Chester",        url: "http://epas.csc-ma.us/Chester/",                        system: "CSC EPAS" },
+      { name: "Chicopee",       url: "https://gis.vgsi.com/chicopeema/",                      system: "Vision GIS" },
+      { name: "East Longmeadow",url: "https://maps.eastlongmeadowma.gov/search/",             system: "Town Portal" },
+      { name: "Granville",      url: "http://www.assessedvalues2.com/index.aspx?jurcode=112", system: "AssessedValues2" },
+      { name: "Hampden",        url: "https://gis.vgsi.com/hampdenma/",                       system: "Vision GIS" },
+      { name: "Holland",        url: "https://gis.vgsi.com/HollandMA/",                       system: "Vision GIS" },
+      { name: "Holyoke",        url: "https://holyoke.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Longmeadow",     url: "https://gis.vgsi.com/longmeadowma/",                    system: "Vision GIS" },
+      { name: "Ludlow",         url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Monson",         url: "http://hosting.tighebond.com/Monson/Default.html",      system: "Tighe & Bond GIS" },
+      { name: "Montgomery",     url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Palmer",         url: "https://gis.vgsi.com/palmerma/",                        system: "Vision GIS" },
+      { name: "Russell",        url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Southwick",      url: "https://gis.vgsi.com/southwickma/",                     system: "Vision GIS" },
+      { name: "Springfield",    url: "https://www.springfield-ma.gov/finance/assessors/",     system: "Town Portal" },
+      { name: "Tolland",        url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Wales",          url: "https://gis.vgsi.com/walesma/",                         system: "Vision GIS" },
+      { name: "West Springfield",url:"http://www.mainstreetmaps.com/MA/WestSpringfield/public.asp", system: "MainStreetMaps" },
+      { name: "Westfield",      url: "https://gis.vgsi.com/westfieldma/",                     system: "Vision GIS" },
+      { name: "Wilbraham",      url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
     ]},
     { county: "Hampshire County", towns: [
-      { name: "Southampton",     url: "https://gis.vgsi.com/southamptonma/",                system: "Vision GIS" },
-      { name: "Westhampton",     url: "https://gis.vgsi.com/westhamptonma/",                system: "Vision GIS" },
+      { name: "Amherst",        url: "https://amherst.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Belchertown",    url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Chesterfield",   url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Cummington",     url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Easthampton",    url: "https://easthampton.patriotproperties.com/",            system: "Patriot Properties" },
+      { name: "Goshen",         url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Granby",         url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Hadley",         url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Hatfield",       url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Huntington",     url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Middlefield",    url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Northampton",    url: "https://northampton.patriotproperties.com/",            system: "Patriot Properties" },
+      { name: "Pelham",         url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Plainfield",     url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "South Hadley",   url: "https://southhadley.patriotproperties.com/",            system: "Patriot Properties" },
+      { name: "Southampton",    url: "https://gis.vgsi.com/southamptonma/",                   system: "Vision GIS" },
+      { name: "Ware",           url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Westhampton",    url: "https://gis.vgsi.com/westhamptonma/",                   system: "Vision GIS" },
+      { name: "Williamsburg",   url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Worthington",    url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
     ]},
-    { county: "Barnstable County (Cape Cod)", towns: [
-      { name: "Barnstable (incl. Hyannis)", url: "https://www.townofbarnstable.us/Assessing/", system: "Town of Barnstable" },
-      { name: "Bourne",          url: "http://www.assessedvalues2.com/index.aspx",          system: "AssessedValues2" },
-      { name: "Brewster",        url: "https://brewster-ma.gov/departments-mainmenu-26/board-of-assessors-mainmenu-37", system: "Town of Brewster" },
-      { name: "Chatham",         url: "https://www.mapsonline.net/chathamma/",              system: "MapsOnline" },
-      { name: "Dennis",          url: "http://www.assessedvalues2.com/index.aspx",          system: "AssessedValues2" },
-      { name: "Eastham",         url: "https://www.mapsonline.net/easthamma/web_assessor/search.php", system: "MapsOnline" },
-      { name: "Falmouth",        url: "https://falmouth.patriotproperties.com/",            system: "Patriot Properties" },
-      { name: "Harwich",         url: "http://www.assessedvalues2.com/index.aspx",          system: "AssessedValues2" },
-      { name: "Mashpee",         url: "http://www.assessedvalues2.com/index.aspx",          system: "AssessedValues2" },
-      { name: "Nantucket",       url: "https://gis.vgsi.com/nantucketma/",                  system: "Vision GIS" },
-      { name: "Orleans",         url: "https://www.mapsonline.net/orleansmama/",            system: "MapsOnline" },
-      { name: "Provincetown",    url: "https://www.mapsonline.net/provincetownma/web_assessor/search.php", system: "MapsOnline" },
-      { name: "Sandwich",        url: "http://www.assessedvalues2.com/index.aspx",          system: "AssessedValues2" },
-      { name: "Truro",           url: "https://www.mapsonline.net/truroma/",                system: "MapsOnline" },
-      { name: "Wellfleet",       url: "https://www.mapsonline.net/wellfleetma/",            system: "MapsOnline" },
-      { name: "Yarmouth",        url: "https://gis.vgsi.com/yarmouthma/",                   system: "Vision GIS" },
+    { county: "Middlesex County", towns: [
+      { name: "Acton",          url: "https://acton.patriotproperties.com/",                  system: "Patriot Properties" },
+      { name: "Arlington",      url: "https://arlington.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Ashby",          url: "http://epas.csc-ma.us/PublicAccess/Pages/AllCommunitySearchParcel.aspx", system: "CSC EPAS" },
+      { name: "Ashland",        url: "https://ashlandma.mapgeo.io/",                          system: "MapGeo GIS" },
+      { name: "Ayer",           url: "https://ayer.patriotproperties.com/",                   system: "Patriot Properties" },
+      { name: "Bedford",        url: "https://bedford.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Belmont",        url: "https://belmont.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Billerica",      url: "https://billerica.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Boxborough",     url: "https://boxborough.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Burlington",     url: "https://burlington.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Cambridge",      url: "https://cambridge.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Carlisle",       url: "https://carlisle.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Chelmsford",     url: "https://gis.vgsi.com/chelmsfordma/",                    system: "Vision GIS" },
+      { name: "Concord",        url: "https://gis.vgsi.com/concordma/",                       system: "Vision GIS" },
+      { name: "Dracut",         url: "https://gis.vgsi.com/dracutma/",                        system: "Vision GIS" },
+      { name: "Dunstable",      url: "https://dunstable.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Everett",        url: "https://everett.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Framingham",     url: "https://gis.vgsi.com/framinghamma/",                    system: "Vision GIS" },
+      { name: "Groton",         url: "https://gis.vgsi.com/grotonma/",                        system: "Vision GIS" },
+      { name: "Holliston",      url: "https://holliston.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Hopkinton",      url: "https://next.axisgis.com/HopkintonMA/",                 system: "AxisGIS" },
+      { name: "Hudson",         url: "https://gis.vgsi.com/hudsonma/",                        system: "Vision GIS" },
+      { name: "Lexington",      url: "https://gis.vgsi.com/lexingtonma/",                     system: "Vision GIS" },
+      { name: "Lincoln",        url: "https://lincoln.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Littleton",      url: "https://littleton.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Lowell",         url: "https://gis.vgsi.com/lowellma/",                        system: "Vision GIS" },
+      { name: "Malden",         url: "https://malden.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Marlborough",    url: "https://marlborough.patriotproperties.com/",            system: "Patriot Properties" },
+      { name: "Maynard",        url: "https://maynard.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Medford",        url: "https://gis.vgsi.com/medfordma/",                       system: "Vision GIS" },
+      { name: "Medway",         url: "https://medway.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Melrose",        url: "https://melrose.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Natick",         url: "https://natick.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Newton",         url: "https://newtonma.mapgeo.io/datasets/properties",        system: "MapGeo GIS" },
+      { name: "North Reading",  url: "https://northreading.patriotproperties.com/",           system: "Patriot Properties" },
+      { name: "Pepperell",      url: "https://pepperell.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Reading",        url: "https://reading.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Sherborn",       url: "https://sherborn.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Shirley",        url: "https://shirley.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Somerville",     url: "https://gis.vgsi.com/SomervilleMA/",                    system: "Vision GIS" },
+      { name: "Stoneham",       url: "https://stoneham.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Stow",           url: "https://gis.vgsi.com/stowma/",                          system: "Vision GIS" },
+      { name: "Sudbury",        url: "https://sudbury.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Tewksbury",      url: "https://gis.vgsi.com/TewksburyMA/",                     system: "Vision GIS" },
+      { name: "Townsend",       url: "https://townsend.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Tyngsborough",   url: "https://tyngsborough.patriotproperties.com/",           system: "Patriot Properties" },
+      { name: "Wakefield",      url: "https://wakefield.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Waltham",        url: "https://waltham.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Watertown",      url: "https://gis.vgsi.com/WatertownMA/",                     system: "Vision GIS" },
+      { name: "Wayland",        url: "https://gis.vgsi.com/WaylandMA/",                       system: "Vision GIS" },
+      { name: "Westford",       url: "https://westford.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Weston",         url: "https://weston.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Wilmington",     url: "https://gis.vgsi.com/wilmingtonma/",                    system: "Vision GIS" },
+      { name: "Winchester",     url: "https://winchester.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Woburn",         url: "https://gis.vgsi.com/woburnma/",                        system: "Vision GIS" },
+    ]},
+    { county: "Nantucket County", towns: [
+      { name: "Nantucket",      url: "https://gis.vgsi.com/nantucketma/",                     system: "Vision GIS" },
+    ]},
+    { county: "Norfolk County", towns: [
+      { name: "Avon",           url: "https://gis.vgsi.com/AvonMA/",                          system: "Vision GIS" },
+      { name: "Bellingham",     url: "https://bellingham.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Braintree",      url: "https://braintree.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Brookline",      url: "https://brookline.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Canton",         url: "https://canton.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Cohasset",       url: "https://cohasset.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Dedham",         url: "https://gis.vgsi.com/dedhamma/",                        system: "Vision GIS" },
+      { name: "Dover",          url: "https://dover.patriotproperties.com/",                  system: "Patriot Properties" },
+      { name: "Foxborough",     url: "https://foxborough.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Franklin",       url: "https://franklin.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Holbrook",       url: "https://holbrook.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Medfield",       url: "https://medfield.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Medway",         url: "https://medway.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Millis",         url: "https://millis.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Milton",         url: "https://milton.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Needham",        url: "https://needham.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Norfolk",        url: "https://gis.vgsi.com/norfolkma/",                       system: "Vision GIS" },
+      { name: "Norwood",        url: "https://gis.vgsi.com/norwoodma/",                       system: "Vision GIS" },
+      { name: "Plainville",     url: "https://plainville.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Quincy",         url: "https://gis.vgsi.com/quincyma/",                        system: "Vision GIS" },
+      { name: "Randolph",       url: "https://gis.vgsi.com/RandolphMA/",                      system: "Vision GIS" },
+      { name: "Sharon",         url: "https://gis.vgsi.com/SharonMA/",                        system: "Vision GIS" },
+      { name: "Stoughton",      url: "https://stoughton.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Walpole",        url: "https://gis.vgsi.com/walpolema/",                       system: "Vision GIS" },
+      { name: "Wellesley",      url: "https://wellesley.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Westwood",       url: "https://gis.vgsi.com/westwoodma/",                      system: "Vision GIS" },
+      { name: "Weymouth",       url: "https://weymouth.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Wrentham",       url: "https://gis.vgsi.com/wrenthamma/",                      system: "Vision GIS" },
+    ]},
+    { county: "Plymouth County", towns: [
+      { name: "Abington",       url: "https://gis.vgsi.com/abingtonma/",                      system: "Vision GIS" },
+      { name: "Bridgewater",    url: "https://bridgewater.patriotproperties.com/",            system: "Patriot Properties" },
+      { name: "Brockton",       url: "https://hosting.tighebond.com/BrocktonMA_Public/",      system: "Tighe & Bond GIS" },
+      { name: "Carver",         url: "https://carver.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Duxbury",        url: "https://www.axisgis.com/duxburyma/",                    system: "AxisGIS" },
+      { name: "East Bridgewater",url:"https://eastbridgewater.patriotproperties.com/",        system: "Patriot Properties" },
+      { name: "Halifax",        url: "https://halifax.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Hanover",        url: "https://gis.vgsi.com/hanoverma/",                       system: "Vision GIS" },
+      { name: "Hanson",         url: "https://hanson.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Hingham",        url: "https://gis.vgsi.com/hinghamma/",                       system: "Vision GIS" },
+      { name: "Hull",           url: "https://hull.patriotproperties.com/",                   system: "Patriot Properties" },
+      { name: "Kingston",       url: "https://kingston.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Lakeville",      url: "https://lakeville.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Marion",         url: "https://marion.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Marshfield",     url: "https://marshfield.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Mattapoisett",   url: "https://gis.vgsi.com/mattapoisettma/",                  system: "Vision GIS" },
+      { name: "Middleborough",  url: "https://gis.vgsi.com/MiddleboroughMA/",                 system: "Vision GIS" },
+      { name: "Norwell",        url: "https://gis.vgsi.com/NorwellMA/",                       system: "Vision GIS" },
+      { name: "Pembroke",       url: "https://pembroke.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Plymouth",       url: "https://plymouth.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Plympton",       url: "https://plymptonma.mapgeo.io/",                         system: "MapGeo GIS" },
+      { name: "Rochester",      url: "https://rochester.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Rockland",       url: "https://rockland.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Scituate",       url: "https://scituate.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Wareham",        url: "https://gis.vgsi.com/warehamma/",                       system: "Vision GIS" },
+      { name: "West Bridgewater",url:"https://westbridgewater.patriotproperties.com/",        system: "Patriot Properties" },
+      { name: "Whitman",        url: "https://whitman.patriotproperties.com/",                system: "Patriot Properties" },
+    ]},
+    { county: "Suffolk County", towns: [
+      { name: "Boston",         url: "https://www.cityofboston.gov/assessing/search/",        system: "City of Boston" },
+      { name: "Chelsea",        url: "https://gis.vgsi.com/chelseama/",                       system: "Vision GIS" },
+      { name: "Revere",         url: "https://revere.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Winthrop",       url: "https://gis.vgsi.com/winthropma/",                      system: "Vision GIS" },
+    ]},
+    { county: "Worcester County", towns: [
+      { name: "Ashburnham",     url: "https://ashburnham.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Athol",          url: "https://athol.patriotproperties.com/",                  system: "Patriot Properties" },
+      { name: "Auburn",         url: "https://gis.vgsi.com/AuburnMA/",                        system: "Vision GIS" },
+      { name: "Barre",          url: "https://barre.patriotproperties.com/",                  system: "Patriot Properties" },
+      { name: "Berlin",         url: "https://gis.vgsi.com/BerlinMA/",                        system: "Vision GIS" },
+      { name: "Blackstone",     url: "https://blackstone.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Bolton",         url: "https://bolton.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Boylston",       url: "https://boylston.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Brookfield",     url: "https://brookfield.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Charlton",       url: "https://charlton.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Clinton",        url: "https://gis.vgsi.com/clintonma/",                       system: "Vision GIS" },
+      { name: "Douglas",        url: "https://douglas.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Dudley",         url: "https://gis.vgsi.com/dudleyma/",                        system: "Vision GIS" },
+      { name: "East Brookfield",url: "https://gis.vgsi.com/EastBrookfieldMA/",               system: "Vision GIS" },
+      { name: "Fitchburg",      url: "https://fitchburg.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Gardner",        url: "https://gis.vgsi.com/gardnerma/",                       system: "Vision GIS" },
+      { name: "Grafton",        url: "https://gis.vgsi.com/graftonma/",                       system: "Vision GIS" },
+      { name: "Hardwick",       url: "https://hardwick.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Harvard",        url: "https://harvard.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Holden",         url: "https://gis.vgsi.com/holdenma/",                        system: "Vision GIS" },
+      { name: "Hopedale",       url: "https://hopedale.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Hubbardston",    url: "https://gis.vgsi.com/hubbardstonma/",                   system: "Vision GIS" },
+      { name: "Lancaster",      url: "https://lancaster.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Leicester",      url: "https://leicester.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Leominster",     url: "https://leominster.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Lunenburg",      url: "https://lunenburg.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Mendon",         url: "https://mendon.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Milford",        url: "https://milford.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Millbury",       url: "https://gis.vgsi.com/millburyma/",                      system: "Vision GIS" },
+      { name: "Millville",      url: "https://millville.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "New Braintree",  url: "https://newbraintree.patriotproperties.com/",           system: "Patriot Properties" },
+      { name: "Northborough",   url: "https://northborough.patriotproperties.com/",           system: "Patriot Properties" },
+      { name: "Northbridge",    url: "https://gis.vgsi.com/NorthbridgeMA/",                   system: "Vision GIS" },
+      { name: "North Brookfield",url:"https://northbrookfield.patriotproperties.com/",        system: "Patriot Properties" },
+      { name: "Oakham",         url: "https://oakham.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Oxford",         url: "https://oxford.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Paxton",         url: "https://gis.vgsi.com/PaxtonMA/",                        system: "Vision GIS" },
+      { name: "Petersham",      url: "https://petersham.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Phillipston",    url: "https://phillipston.patriotproperties.com/",            system: "Patriot Properties" },
+      { name: "Princeton",      url: "https://princeton.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Royalston",      url: "https://royalston.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Rutland",        url: "https://rutland.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Shrewsbury",     url: "https://gis.vgsi.com/ShrewsburyMA/",                    system: "Vision GIS" },
+      { name: "Southborough",   url: "https://southborough.patriotproperties.com/",           system: "Patriot Properties" },
+      { name: "Southbridge",    url: "https://gis.vgsi.com/southbridgema/",                   system: "Vision GIS" },
+      { name: "Spencer",        url: "https://spencer.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "Sterling",       url: "https://sterling.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Sturbridge",     url: "https://gis.vgsi.com/sturbridgema/",                    system: "Vision GIS" },
+      { name: "Sutton",         url: "https://gis.vgsi.com/suttonMA/",                        system: "Vision GIS" },
+      { name: "Templeton",      url: "https://templeton.patriotproperties.com/",              system: "Patriot Properties" },
+      { name: "Upton",          url: "https://upton.patriotproperties.com/",                  system: "Patriot Properties" },
+      { name: "Uxbridge",       url: "https://uxbridge.patriotproperties.com/",               system: "Patriot Properties" },
+      { name: "Wales",          url: "https://gis.vgsi.com/walesma/",                         system: "Vision GIS" },
+      { name: "Warren",         url: "https://warren.patriotproperties.com/",                 system: "Patriot Properties" },
+      { name: "Webster",        url: "https://webster.patriotproperties.com/",                system: "Patriot Properties" },
+      { name: "West Boylston",  url: "https://westboylston.patriotproperties.com/",           system: "Patriot Properties" },
+      { name: "West Brookfield",url: "https://gis.vgsi.com/westbrookfieldma/",               system: "Vision GIS" },
+      { name: "Westborough",    url: "https://westborough.patriotproperties.com/",            system: "Patriot Properties" },
+      { name: "Westminster",    url: "https://gis.vgsi.com/westminsterma/",                   system: "Vision GIS" },
+      { name: "Winchendon",     url: "https://winchendon.patriotproperties.com/",             system: "Patriot Properties" },
+      { name: "Worcester",      url: "https://gis.vgsi.com/worcesterma/",                     system: "Vision GIS" },
     ]},
   ],
   RI: [
@@ -501,10 +731,12 @@ const tagClass = {
   "MapGeo GIS":         "tag-gis",
   "Tighe & Bond GIS":   "tag-gis",
   "AxisGIS":            "tag-gis",
+  "AppGeo GIS":         "tag-gis",
   "AssessedValues2":    "tag-other",
   "MapsOnline":         "tag-other",
-  "Town of Barnstable": "tag-other",
-  "Town of Brewster":   "tag-other",
+  "CSC EPAS":           "tag-other",
+  "MainStreetMaps":     "tag-other",
+  "Town Portal":        "tag-other",
   "City of Boston":     "tag-other",
 };
 
@@ -512,8 +744,8 @@ let currentState = 'MA';
 
 function setState(state) {
   currentState = state;
-  document.getElementById('btn-ma').className = 'state-btn' + (state === 'MA' ? ' active-ma' : '');
-  document.getElementById('btn-ri').className = 'state-btn' + (state === 'RI' ? ' active-ri' : '');
+  document.getElementById('btn-ma').className = 'state-btn' + (state==='MA' ? ' active-ma' : '');
+  document.getElementById('btn-ri').className = 'state-btn' + (state==='RI' ? ' active-ri' : '');
   document.getElementById('searchBox').value = '';
   renderTowns('');
 }
@@ -527,42 +759,28 @@ function renderTowns(query) {
   const counties = data[currentState];
   let html = '';
   let totalShown = 0;
-
   for (const county of counties) {
     const filtered = county.towns.filter(t => t.name.toLowerCase().includes(query));
     if (filtered.length === 0) continue;
     totalShown += filtered.length;
-
     html += `<div class="county-section">`;
     if (!query) html += `<div class="county-label">${county.county}</div>`;
     html += `<div class="towns-grid">`;
-
     for (const t of filtered) {
       const tag = tagClass[t.system] || 'tag-other';
       const cardClass = isRI ? 'town-card ri-card' : 'town-card';
-      html += `
-        <a class="${cardClass}" href="${t.url}" target="_blank" rel="noopener">
-          <div>
-            <div class="town-name">${t.name}</div>
-            <div class="town-system">${t.system}</div>
-          </div>
-          <div style="display:flex;align-items:center">
-            <span class="tag ${tag}">${t.system.split(' ')[0]}</span>
-            <span class="town-arrow">›</span>
-          </div>
-        </a>`;
+      html += `<a class="${cardClass}" href="${t.url}" target="_blank" rel="noopener">
+        <div><div class="town-name">${t.name}</div><div class="town-system">${t.system}</div></div>
+        <div style="display:flex;align-items:center">
+          <span class="tag ${tag}">${t.system.split(' ')[0]}</span>
+          <span class="town-arrow">›</span>
+        </div></a>`;
     }
-
     html += `</div></div>`;
   }
-
   if (totalShown === 0) {
-    html = `<div class="no-results">
-      <div class="no-results-icon">🔍</div>
-      <div>No towns found for "<strong>${query}</strong>"</div>
-    </div>`;
+    html = `<div class="no-results"><div class="no-results-icon">🔍</div><div>No towns found for "<strong>${query}</strong>"</div></div>`;
   }
-
   document.getElementById('townList').innerHTML = html;
 }
 
